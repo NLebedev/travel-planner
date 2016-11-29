@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TripService } from './trip.service';
 import { Trip } from './trip.model';
-import * as $ from 'jquery';
-import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 
 const pickerOptions = {
   todayBtnTxt: 'Today',
@@ -16,7 +14,6 @@ const pickerOptions = {
   selectionTxtFontSize: '16px',
 };
 
-import { DatepickerModule } from 'angular2-material-datepicker'
 @Component({
   selector: 'app-new-trip',
   templateUrl: './new-trip.component.html'
@@ -44,7 +41,7 @@ export class NewTripComponent implements OnInit {
   }
 
   createDatePickerOptions(mode) {
-    let options = Object.assign({}, pickerOptions);
+    let options = Object.assign({}, pickerOptions, {disableUntil: '', disableSince: ''});
     if (mode === 'end') {
       options.disableUntil = this.disableUntil;
     } else {
