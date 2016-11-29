@@ -21,7 +21,70 @@ a.danger {
 .spacing {
   margin-bottom: 20px;
 }
-
+/*
 input.ng-invalid.ng-touched {
   border: 1px solid red;
+}*/
+
+/* BTN PICKER */
+
+.btnpicker {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+div .mydp, .selection, .selectiongroup {
+  border-radius: 4px;
+}
+
+.mydp  {
+  display: block ;
+  font-size: 14px;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc !important;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.mydp .selectiongroup .selection {
+  font-size: 14px !important;
+  font-weight: normal;
+  color: rgb(85,85,85);
+}
+
+.mydp .selectiongroup .selection:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+div .mydp .selector {
+  padding: 0;
+}
+
+.labeled-picker {
+  display: inline-block;
+}
+
+.labeled-picker:nth-of-type(2n + 1) {
+  float: right;
+}
+
+.labeled-picker label {
+  display: block;
+}
+
+.alert.alert-danger {
+  margin-top: 10px;
+}
+
+.alert.alert-danger.alert-picker {
+  margin-top: 7px;
 }

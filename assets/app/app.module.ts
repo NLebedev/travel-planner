@@ -12,8 +12,9 @@ import { HeaderComponent } from './header.component';
 import { LogoutComponent } from './auth/logout.component';
 import { SignupComponent } from './auth/signup.component';
 import { SigninComponent } from './auth/signin.component';
-
 import { routing } from './app.routing';
+//
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { routing } from './app.routing';
     SignupComponent,
     SigninComponent,
   ],
-  imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule],
+  imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, MyDatePickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {
