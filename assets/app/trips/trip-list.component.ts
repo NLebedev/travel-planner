@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Trip } from './trip.model'
+import { Trip } from './trip.model';
 import { TripService } from './trip.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { TripService } from './trip.service';
       <app-trip 
           *ngFor="let trip of trips"
           [trip]="trip" 
-          (editClicked)="trip.content = $event"
         >
         </app-trip>
     </div>
@@ -22,7 +21,12 @@ export class TripListComponent implements OnInit {
   constructor(private tripService: TripService) {}
 
   ngOnInit() {
-    this.trips = this.tripService.getTrips();
+    this.tripService.getTrips()
+      .subscribe(
+        (trips: Trip[]) => {
+          this.trips = trips;
+        }
+      );
   }
 }
 

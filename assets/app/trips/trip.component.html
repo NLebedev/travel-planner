@@ -8,8 +8,9 @@
       {{ trip.comment }}
     </div>
     <div class="config">
-      <a (click)="onEdit()">Edit</a>
+      <a [routerLink]="['/trips/edit']">Edit</a>
       <a (click)="onDelete()">Delete</a>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </article>

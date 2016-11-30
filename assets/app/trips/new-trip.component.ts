@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TripService } from './trip.service';
 import { Trip } from './trip.model';
@@ -16,82 +16,16 @@ const pickerOptions = {
 
 @Component({
   selector: 'app-new-trip',
-  templateUrl: './new-trip.component.html',
-  styleUrls: ['./new-trip.component.css'] 
+  template: `
+    <div class="col-md-8 col-md-offset-2">
+      <div class="content-container">
+        <h2>Create New Trip</h2>
+        <app-trip-input></app-trip-input>
+      </div>
+    </div>
+  `
 })
-  // ['./new-trip.component.css']
-export class NewTripComponent implements OnInit {
-  startDate: string;
-  endDate: string;
-  disableUntil: Object;
-  disableSince: Object;
-  showingErrors: boolean;
-  created: boolean;
-  tripForm: FormGroup;
 
-  constructor(private tripService: TripService) {
-  }
-
-
-  startDateChanged(event:any) {
-    this.disableUntil = event.date;
-    this.startDate = event.formatted;
-  }
-
-  endDateChanged(event:any) {
-    this.disableSince = event.date;
-    this.endDate = event.formatted;
-  }
-
-  createDatePickerOptions(mode) {
-    let options = Object.assign({}, pickerOptions, {disableUntil: {}, disableSince: {}});
-    if (mode === 'end') {
-      options.disableUntil = this.disableUntil;
-    } else {
-      options.disableSince = this.disableSince;
-    }
-    return options;
-  }
-
-  clearForm() {
-    this.tripForm.reset();
-    this.endDate = '';
-    this.startDate = '';
-    this.showingErrors = false;
-  }
-
-  formValid() {
-    if (this.endDate && this.startDate && this.tripForm.valid) return true;
-    return false; 
-  }
-
-  onSubmit() {
-    if (this.formValid()) {
-      this.tripService.addTrip(new Trip(
-        this.tripForm.value.destination,
-        this.startDate,
-        this.endDate,
-        this.tripForm.value.comment,
-      ));
-      this.clearForm();
-      this.created = true;
-    } else {
-      this.showingErrors = true;
-      this.created = false;
-    }
-  }
-
-  ngOnInit() {
-    this.created = false;
-    this.startDate = '';
-    this.endDate = '';
-    this.disableUntil = {};
-    this.disableSince = {};
-    this.showingErrors = false;
-    this.tripForm = new FormGroup({
-      destination: new FormControl(null, Validators.required),
-      comment: new FormControl(null, [])
-    });
-  }
+export class NewTripComponent{
 
 }

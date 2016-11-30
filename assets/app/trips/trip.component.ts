@@ -19,6 +19,7 @@ export class TripComponent{
     this.editClicked.emit('A new value');
   }
   onDelete() {
-    this.tripService.deleteTrip(this.trip);
+    this.tripService.deleteTrip(this.trip)
+      .subscribe(result => console.log(result));
   }
 }

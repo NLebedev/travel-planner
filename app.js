@@ -7,9 +7,11 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var appRoutes = require('./routes/app');
+var tripRoutes = require('./routes/trip');
+var userRoutes = require('./routes/user');
 
 var app = express();
-mongoose.connect('localhost:27017/udemy-angular2');
+mongoose.connect('localhost:27017/travel-planner');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +33,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+// app.use('/user', userRoutes);
+app.use('/trip', tripRoutes);
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler

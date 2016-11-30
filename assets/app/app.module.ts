@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { TripComponent } from './trips/trip.component';
 import { TripListComponent } from './trips/trip-list.component';
 import { TripsComponent } from './trips/trips.component';
+import { TripInputComponent } from './trips/trip-input.component';
+
 import { NewTripComponent } from './trips/new-trip.component';
+import { EditTripComponent } from './trips/edit-trip.component';
+
 import { AuthenticationComponent } from './auth/authentication.component';
 import { HeaderComponent } from './header.component';
 import { LogoutComponent } from './auth/logout.component';
@@ -24,14 +29,24 @@ import { MomentModule } from 'angular2-moment';
     TripComponent,
     TripListComponent,
     TripsComponent,
+    TripInputComponent,
     NewTripComponent,
+    EditTripComponent,
     AuthenticationComponent,
     HeaderComponent,
     LogoutComponent,
     SignupComponent,
     SigninComponent,
   ],
-  imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, MyDatePickerModule, MomentModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    routing,
+    ReactiveFormsModule,
+    MyDatePickerModule,
+    MomentModule,
+    HttpModule,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
