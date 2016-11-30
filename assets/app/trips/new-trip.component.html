@@ -1,7 +1,7 @@
 <div class="col-md-8 col-md-offset-2">
-  <div class="form-container">
-    <div class="alert alert-success">
-      <strong>Success!</strong> You have created a trip to {{destination}}.
+  <div class="content-container">
+    <div class="alert alert-success" *ngIf="created">
+      <strong>Success!</strong> Your trip has been created
     </div>
     <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -12,6 +12,7 @@
             id="destination"
             class="form-control"
             formControlName="destination"
+            #destination
           >
           <div 
             class="alert alert-danger" *ngIf="!tripForm.controls['destination'].valid && showingErrors"

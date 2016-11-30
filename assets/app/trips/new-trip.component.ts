@@ -16,14 +16,17 @@ const pickerOptions = {
 
 @Component({
   selector: 'app-new-trip',
-  templateUrl: './new-trip.component.html'
+  templateUrl: './new-trip.component.html',
+  styleUrls: ['./new-trip.component.css'] 
 })
+  // ['./new-trip.component.css']
 export class NewTripComponent implements OnInit {
   startDate: string;
   endDate: string;
   disableUntil: Object;
   disableSince: Object;
   showingErrors: boolean;
+  created: boolean;
   tripForm: FormGroup;
 
   constructor(private tripService: TripService) {
@@ -41,7 +44,7 @@ export class NewTripComponent implements OnInit {
   }
 
   createDatePickerOptions(mode) {
-    let options = Object.assign({}, pickerOptions, {disableUntil: '', disableSince: ''});
+    let options = Object.assign({}, pickerOptions, {disableUntil: {}, disableSince: {}});
     if (mode === 'end') {
       options.disableUntil = this.disableUntil;
     } else {
@@ -71,12 +74,15 @@ export class NewTripComponent implements OnInit {
         this.tripForm.value.comment,
       ));
       this.clearForm();
+      this.created = true;
     } else {
       this.showingErrors = true;
+      this.created = false;
     }
   }
 
   ngOnInit() {
+    this.created = false;
     this.startDate = '';
     this.endDate = '';
     this.disableUntil = {};

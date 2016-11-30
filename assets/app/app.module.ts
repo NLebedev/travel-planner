@@ -16,6 +16,8 @@ import { routing } from './app.routing';
 //
 import { MyDatePickerModule } from 'mydatepicker';
 
+import { MomentModule } from 'angular2-moment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,7 @@ import { MyDatePickerModule } from 'mydatepicker';
     SignupComponent,
     SigninComponent,
   ],
-  imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, MyDatePickerModule],
+  imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule, MyDatePickerModule, MomentModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {

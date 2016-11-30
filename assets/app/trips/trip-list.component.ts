@@ -4,6 +4,7 @@ import { TripService } from './trip.service';
 
 @Component({
   selector: 'app-trip-list',
+  styleUrls: ['./trips-list.component.css'],
   template: `
     <div class="col-md-8 col-md-offset-2">
       <app-trip 
@@ -24,3 +25,4 @@ export class TripListComponent implements OnInit {
     this.trips = this.tripService.getTrips();
   }
 }
+

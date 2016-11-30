@@ -1,14 +1,15 @@
 <article class="panel panel-default">
-  <div class="panel-body">
-    {{ trip.comment }} 
+  <div class="panel-heading trip-heading">
+    <div class="trip-destination">{{ trip.destination }}</div> 
+    <div class="trip-dates">{{ trip.startDate | amDateFormat: 'll' }} - {{ trip.endDate | amDateFormat: 'll'}}</div>
   </div>
-  <footer class="panel-footer">
+  <div class="panel-body">
     <div class="author">
-      {{ trip.destination }}
+      {{ trip.comment }}
     </div>
     <div class="config">
       <a (click)="onEdit()">Edit</a>
       <a (click)="onDelete()">Delete</a>
     </div>
-  </footer>
+  </div>
 </article>
