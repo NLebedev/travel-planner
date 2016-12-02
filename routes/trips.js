@@ -5,6 +5,30 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user');
 var Trip = require('../models/trip');
 
+var ObjectId = require('mongoose').Types.ObjectId; 
+
+router.get('/user_trips', function (req, res, next) {
+  var decoded = jwt.decode(req.query.token);
+  if (!decoded || !decoded.user || !decoded.user._id) {
+    return res.status(500).json({
+      title: 'Wrong token',
+      error: {message: 'Provided token is wrong'}
+    });
+  }
+  Trip.find({ user: new ObjectId(decoded.user._id) }, function(err, trips) {
+    if (err) {
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
+    res.status(200).json({
+      message: 'Success',
+      obj: trips
+    })
+  });
+});
+
 router.use('/', function(req, res, next) {
   jwt.verify(req.query.token, 'secret', function(err, decoded) {
     if (err) {
@@ -17,25 +41,14 @@ router.use('/', function(req, res, next) {
   })
 });
 
-router.get('/', function(req, res, next) {
-  Trip.find()
-    .populate('user', 'firstName')
-    .exec(function(err, trips) {
-      if (err) {
-        return res.status(500).json({
-          title: 'An error occured',
-          error: err
-        });
-      } 
-      res.status(200).json({
-        message: 'Success',
-        obj: trips
-      }) 
-    });
-});
-
 router.post('/', function (req, res, next) {
   var decoded = jwt.decode(req.query.token);
+  if (!decoded || !decoded.user || !decoded.user._id) {
+    return res.status(500).json({
+      title: 'Wrong token',
+      error: {message: 'Provided token is wrong'}
+    });
+  }
   User.findById(decoded.user._id, function(err, user) {
     if (err) {
       return res.status(500).json({
@@ -43,11 +56,20 @@ router.post('/', function (req, res, next) {
         error: err
       });
     }
+
+    if (!user) {
+      return res.status(500).json({
+        title: 'No user found!',
+        error: {message: 'User not found'}
+      });
+    }
+
     var trip = new Trip({
       destination: req.body.destination,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      comment: req.body.comment
+      comment: req.body.comment,
+      user: user
     });
     trip.save(function(err, result) {
       if (err) {
@@ -66,8 +88,15 @@ router.post('/', function (req, res, next) {
   });
 });
 
+
 router.patch('/:id', function(req, res, next) {
   var decoded = jwt.decode(req.query.token);
+  if (!decoded || !decoded.user || !decoded.user._id) {
+    return res.status(500).json({
+      title: 'Wrong token',
+      error: {message: 'Provided token is wrong'}
+    });
+  }
   Trip.findById(req.params.id, function(err, trip) {
     if (err) {
       return res.status(500).json({
@@ -108,6 +137,12 @@ router.patch('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
   var decoded = jwt.decode(req.query.token);
+  if (!decoded || !decoded.user || !decoded.user._id) {
+    return res.status(500).json({
+      title: 'Wrong token',
+      error: {message: 'Provided token is wrong'}
+    });
+  }
   Trip.findById(req.params.id, function(err, trip) {
     if (err) {
       return res.status(500).json({
@@ -141,5 +176,27 @@ router.delete('/:id', function(req, res, next) {
     });
   })
 });
+
+
+
+// TODO: only allow this route to admins
+// router.get('/', function(req, res, next) {
+//   Trip.find()
+//     .populate('user', 'firstName')
+//     .exec(function(err, trips) {
+//       if (err) {
+//         return res.status(500).json({
+//           title: 'An error occured',
+//           error: err
+//         });
+//       } 
+//       res.status(200).json({
+//         message: 'Success',
+//         obj: trips
+//       }) 
+//     });
+// });
+
+
 
 module.exports = router;
