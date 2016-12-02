@@ -54,7 +54,10 @@ router.patch('/:id', function(req, res, next) {
         error: {message: 'Trip not found'}
       });
     }
-    trip.content = req.body.content;
+    trip.destination = req.body.destination;
+    trip.startDate = req.body.startDate;
+    trip.endDate = req.body.endDate;
+    trip.comment = req.body.comment;
     trip.save(function(err, result) {
       if (err) {
         return res.status(500).json({

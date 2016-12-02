@@ -109,7 +109,11 @@ div .mydp .selector {
   display: block;
 }
 
-
+.panel, .content-container {
+  -webkit-box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
+}
 
 
 

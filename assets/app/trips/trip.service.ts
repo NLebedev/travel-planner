@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class TripService {
   private trips: Trip[] = [];
-
+  tripToEdit: Trip;
   constructor(private http: Http) {
 
   }
@@ -51,6 +51,15 @@ export class TripService {
         console.log('got trips', transformedTrips);
         return transformedTrips;
       })
+      .catch((error: Response) => Observable.throw(error.json()));
+  }
+
+  updateTrip(trip: Trip) {
+    console.log('got this trip in update', trip);
+    const body = JSON.stringify(trip);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.patch('http://localhost:3000/trip/' + trip.tripId, body, {headers})
+      .map((response: Response) => response.json())
       .catch((error: Response) => Observable.throw(error.json()));
   }
 
