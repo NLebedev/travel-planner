@@ -16,7 +16,10 @@ export class TripService {
   addTrip(trip: Trip) {
     const body = JSON.stringify(trip);
     const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.post('http://localhost:3000/trip', body, {headers})
+    const token = localStorage.getItem('token')
+      ? '?token=' + localStorage.getItem('token')
+      : '';
+    return this.http.post('http://localhost:3000/api/trips' + token, body, {headers})
       .map((response: Response) => {
         const result = response.json();
         const trip = new Trip(
@@ -25,7 +28,7 @@ export class TripService {
           result.obj.endDate,
           result.obj.comment,
           result.obj._id,
-          null);
+          result.obj.user._id);
         this.trips.push(trip);
         return trip;
       })
@@ -33,10 +36,18 @@ export class TripService {
   }
 
   getTrips() {
-    return this.http.get('http://localhost:3000/trip')
+    console.log('i am here before getting trip');
+    const token = localStorage.getItem('token')
+      ? '?token=' + localStorage.getItem('token')
+      : '';
+    return this.http.get('http://localhost:3000/api/trips/user_trips' + token)
       .map((response: Response) => {
+        console.log('inside map, response is', response.json());
+        
         const trips = response.json().obj;
+        console.log('after response json');
         let transformedTrips: Trip[] = [];
+        console.log('i am here', trips);
         for (let trip of trips) {
           transformedTrips.push(new Trip(
             trip.destination,
@@ -44,10 +55,12 @@ export class TripService {
             trip.endDate,
             trip.comment,
             trip._id,
-            null
+            trip.user._id
           ));
         }
+        console.log('i am here2');
         this.trips = transformedTrips;
+        console.log('i am here3');
         console.log('got trips', transformedTrips);
         return transformedTrips;
       })
@@ -58,14 +71,20 @@ export class TripService {
     console.log('got this trip in update', trip);
     const body = JSON.stringify(trip);
     const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.patch('http://localhost:3000/trip/' + trip.tripId, body, {headers})
+    const token = localStorage.getItem('token')
+      ? '?token=' + localStorage.getItem('token')
+      : '';
+    return this.http.patch('http://localhost:3000/api/trips/' + trip.tripId + token, body, {headers})
       .map((response: Response) => response.json())
       .catch((error: Response) => Observable.throw(error.json()));
   }
 
   deleteTrip(trip: Trip) {
     this.trips.splice(this.trips.indexOf(trip), 1);
-    return this.http.delete('http://localhost:3000/trip/' + trip.tripId)
+    const token = localStorage.getItem('token')
+      ? '?token=' + localStorage.getItem('token')
+      : '';
+    return this.http.delete('http://localhost:3000/api/trips/' + trip.tripId + token)
       .map((response: Response) => response.json())
       .catch((error: Response) => Observable.throw(error.json()));
   }
