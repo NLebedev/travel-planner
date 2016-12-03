@@ -15,6 +15,8 @@ import { LogoutComponent } from './auth/logout.component';
 import { SignupComponent } from './auth/signup.component';
 import { SigninComponent } from './auth/signin.component';
 import { AuthService } from './auth/auth.service';
+import { TripService } from './trips/trip.service';
+
 
 import { routing } from './app.routing';
 
@@ -45,7 +47,7 @@ import { MomentModule } from 'angular2-moment';
     MomentModule,
     HttpModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, TripService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

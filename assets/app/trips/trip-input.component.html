@@ -8,7 +8,7 @@
       <div class="form-group">
         <div>
           <label for="destination">Destination</label>
-          <input 
+          <input
             type="text"
             id="destination"
             class="form-control"
@@ -16,7 +16,7 @@
             [ngModel]="editedTrip?.destination"
             #destination
           >
-          <div 
+          <div
             class="alert alert-danger" *ngIf="!tripForm.controls['destination'].valid && showingErrors"
           >
             Destination can't be blank
@@ -25,15 +25,15 @@
       </div>
       <div class="labeled-picker">
         <label for="startDate">Start Date</label>
-          <my-date-picker 
+          <my-date-picker
             [options]="createDatePickerOptions('start')"
             (dateChanged)="startDateChanged($event)"
             [selDate]="startDate"
             id="startDate"
             class="formControl"
-            >    
+            >
           </my-date-picker>
-          <div 
+          <div
             class="alert alert-danger alert-picker" *ngIf="!startDate && showingErrors"
           >
             Start date is not correct
@@ -41,13 +41,13 @@
       </div>
       <div class="labeled-picker">
         <label for="endDate">End Date</label>
-        <my-date-picker 
+        <my-date-picker
           [options]="createDatePickerOptions('end')"
           (dateChanged)="endDateChanged($event)"
           [selDate]="endDate"
           id="endDate">
         </my-date-picker>
-        <div 
+        <div
             class="alert alert-danger alert-picker" *ngIf="!endDate && showingErrors"
           >
             End date is not correct
@@ -65,13 +65,13 @@
         >
         </textarea>
       </div>
-      <button 
+      <button
         class="btn btn-primary"
         type="submit"
       >
         {{ editedTrip ? 'Save changes' : 'Create trip' }}
       </button>
-      <button 
+      <button
         class="btn btn-danger"
         type="button"
         *ngIf="editedTrip"

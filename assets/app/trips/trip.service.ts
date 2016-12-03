@@ -30,7 +30,6 @@ export class TripService {
           result.obj._id,
           result.obj.user._id);
         this.trips.push(trip);
-        console.log('trips after adding', this.trips)
         return trip;
       })
       .catch((error: Response) => Observable.throw(error.json()));
@@ -82,14 +81,14 @@ export class TripService {
 
   deleteTrip(trip: Trip) {
     
+    // this.trips.splice(this.trips.indexOf(trip), 1);
+    console.log('trips before', this.trips);
     const token = localStorage.getItem('token')
       ? '?token=' + localStorage.getItem('token')
       : '';
     return this.http.delete('http://localhost:3000/api/trips/' + trip.tripId + token)
       .map((response: Response) => {
-        console.log('i am inside delete');
-        this.trips.splice(this.trips.indexOf(trip), 1);
-        response.json();
+        return response.json();
       })
       .catch((error: Response) => Observable.throw(error.json()));
   }
