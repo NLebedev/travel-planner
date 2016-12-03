@@ -1,6 +1,9 @@
 <article class="panel panel-default">
   <div class="panel-heading trip-heading">
-    <div class="trip-destination">{{ trip.destination }}</div> 
+    <div class="trip-destination">
+      {{ trip.destination }}
+      <span *ngIf="upcomingTrip">(in {{ trip.startDate | amDifference: today :'days' : false}} days)</span>
+    </div> 
     <div class="trip-dates">{{ trip.startDate | amDateFormat: 'll' }} - {{ trip.endDate | amDateFormat: 'll'}}</div>
   </div>
   <div class="panel-body">
