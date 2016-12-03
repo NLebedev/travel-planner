@@ -17,6 +17,9 @@ import { SigninComponent } from './auth/signin.component';
 import { AuthService } from './auth/auth.service';
 import { TripService } from './trips/trip.service';
 
+import { PageNotFoundComponent } from './page-not-found.component';
+
+import { AuthGuard } from './auth/auth.guard';
 
 import { routing } from './app.routing';
 
@@ -37,6 +40,7 @@ import { MomentModule } from 'angular2-moment';
     LogoutComponent,
     SignupComponent,
     SigninComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,7 @@ import { MomentModule } from 'angular2-moment';
     MomentModule,
     HttpModule,
   ],
-  providers: [AuthService, TripService],
+  providers: [AuthService, TripService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
