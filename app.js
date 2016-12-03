@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/api/user', userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/', appRoutes);
 

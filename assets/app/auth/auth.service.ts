@@ -12,7 +12,7 @@ export class AuthService {
   signup(user: User) {
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.post('http://localhost:3000/api/user', body, { headers })
+    return this.http.post('http://localhost:3000/api/users', body, { headers })
       .map((response: Response) => response.json())
       .catch((error: Response) => {
         return Observable.throw(error.json());
@@ -23,9 +23,13 @@ export class AuthService {
   signin(user: User) {
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.post('http://localhost:3000/api/user/signin', body, { headers })
-      .map((response: Response) => response.json())
+    console.log('signing in');
+    return this.http.post('http://localhost:3000/api/users/signin', body, { headers })
+      .map((response: Response) => {
+        return response.json();
+      })
       .catch((error: Response) => {
+        console.log('Error is', error);
         console.log('I am here', error.json());
         return Observable.throw(error.json());
       });
