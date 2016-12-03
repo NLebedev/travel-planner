@@ -80,9 +80,6 @@ export class TripService {
   }
 
   deleteTrip(trip: Trip) {
-    
-    // this.trips.splice(this.trips.indexOf(trip), 1);
-    console.log('trips before', this.trips);
     const token = localStorage.getItem('token')
       ? '?token=' + localStorage.getItem('token')
       : '';
