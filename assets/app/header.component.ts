@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
         </div> 
       </div>
       <div class="logout">
-        <i class="fa fa-sign-out" aria-hidden="true"></i>
+        <i class="fa fa-user-circle" aria-hidden="true"></i>
+        Hi, Nick
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
       </div>
     <nav class="col-md-8 col-md-offset-2">
     </nav>
@@ -36,7 +38,14 @@ import { Router } from '@angular/router';
       padding: 10px;
       font-size: 13px;
       text-transform: uppercase;
-    } 
+    }
+    .logout {
+      float: right;
+      color: rgb(199,199,199);
+      margin-right: 50px;
+      font-size: 14px;
+      cursor: pointer;
+    }
     
   `]
 })
