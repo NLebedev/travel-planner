@@ -32,8 +32,15 @@ a.danger {
   margin-bottom: 20px;
 }
 
-h2 {
+h1 {
   text-align: center;
+  font-size: 30px;
+  margin-top: 0;
+}
+
+.follow-up-text {
+  margin-top: 9px;
+  float: right;
 }
 
 /*
@@ -42,12 +49,12 @@ input.ng-invalid.ng-touched {
 }*/
 
 .content-container {
-  background-color: rgb(255,255,255);
+  background-color: rgba(255,255,255, 0.72);
   border-radius: 4px;
   padding: 20px;
-  position: absolute;
+ /* position: absolute;
   left:0;
-  top:0;
+  top:0;*/
 }
 
 .alert.alert-danger {

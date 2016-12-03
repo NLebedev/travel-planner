@@ -5,12 +5,16 @@ import { Component } from '@angular/core';
   template: `
     <header class="row">
       <div class="logo-wrapper">
-        <div class="logo">Travel Planner</div> 
+        <div class="logo">
+          <i class="fa fa-globe" aria-hidden="true"></i> 
+          Travel Planner
+        </div> 
       </div>
     <nav class="col-md-8 col-md-offset-2">
     </nav>
     </header>
   `,
+
   styles: [`
     .logo-wrapper {
       background-color: rgba(255,255,255,0.2);

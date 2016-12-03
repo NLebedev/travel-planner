@@ -22,7 +22,7 @@ export class TripComponent implements OnInit {
 
   onEdit() {
     this.tripService.tripToEdit = this.trip;
-    this.router.navigate(['/trips/form']);
+    this.router.navigateByUrl('/trips/form');
   }
 
   onDelete() {

@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { User } from './user.model';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styles: [`
-    .sign-in-text {
-      margin-top: 9px;
-      float: right;
-    }
-  `]
+  templateUrl: './signup.component.html'
 })
 export class SignupComponent implements OnInit {
   myForm: FormGroup;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
    console.log(this.myForm);
@@ -29,7 +24,10 @@ export class SignupComponent implements OnInit {
     );
     this.authService.signup(user)
       .subscribe(
-        data => console.log(data),
+        data => {
+          console.log(data);
+          this.router.navigateByUrl('/trips');
+        },
         error => console.error(error)
       );
     this.myForm.reset();
