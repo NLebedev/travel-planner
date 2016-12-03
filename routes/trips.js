@@ -8,7 +8,7 @@ var Trip = require('../models/trip');
 var ObjectId = require('mongoose').Types.ObjectId; 
 
 router.get('/user_trips', function (req, res, next) {
-  var decoded = jwt.decode(req.query.token);
+  var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
       title: 'Wrong token',
@@ -30,7 +30,7 @@ router.get('/user_trips', function (req, res, next) {
 });
 
 router.use('/', function(req, res, next) {
-  jwt.verify(req.query.token, 'secret', function(err, decoded) {
+  jwt.verify(req.headers.token, 'secret', function(err, decoded) {
     if (err) {
       return res.status(401).json({
         title: 'Not Authenticated',
@@ -42,7 +42,7 @@ router.use('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var decoded = jwt.decode(req.query.token);
+  var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
       title: 'Wrong token',
@@ -90,7 +90,7 @@ router.post('/', function (req, res, next) {
 
 
 router.patch('/:id', function(req, res, next) {
-  var decoded = jwt.decode(req.query.token);
+  var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
       title: 'Wrong token',
@@ -136,7 +136,7 @@ router.patch('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  var decoded = jwt.decode(req.query.token);
+  var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
       title: 'Wrong token',

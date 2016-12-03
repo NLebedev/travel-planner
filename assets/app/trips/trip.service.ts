@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Trip } from './trip.model';
 import 'rxjs/Rx';
@@ -15,11 +15,8 @@ export class TripService {
 
   addTrip(trip: Trip) {
     const body = JSON.stringify(trip);
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const token = localStorage.getItem('token')
-      ? '?token=' + localStorage.getItem('token')
-      : '';
-    return this.http.post('http://localhost:3000/api/trips' + token, body, {headers})
+    const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
+    return this.http.post('http://localhost:3000/api/trips', body, {headers})
       .map((response: Response) => {
         const result = response.json();
         const trip = new Trip(
@@ -36,18 +33,11 @@ export class TripService {
   }
 
   getTrips() {
-    console.log('i am here before getting trip');
-    const token = localStorage.getItem('token')
-      ? '?token=' + localStorage.getItem('token')
-      : '';
-    return this.http.get('http://localhost:3000/api/trips/user_trips' + token)
+    const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
+    return this.http.get('http://localhost:3000/api/trips/user_trips', {headers})
       .map((response: Response) => {
-        console.log('inside map, response is', response.json());
-        
         const trips = response.json().obj;
-        console.log('after response json');
         let transformedTrips: Trip[] = [];
-        console.log('i am here', trips);
         for (let trip of trips) {
           transformedTrips.push(new Trip(
             trip.destination,
@@ -58,9 +48,7 @@ export class TripService {
             trip.user._id
           ));
         }
-        console.log('i am here2');
         this.trips = transformedTrips;
-        console.log('i am here3');
         console.log('got trips', transformedTrips);
         return transformedTrips;
       })
@@ -68,22 +56,16 @@ export class TripService {
   }
 
   updateTrip(trip: Trip) {
-    console.log('got this trip in update', trip);
     const body = JSON.stringify(trip);
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const token = localStorage.getItem('token')
-      ? '?token=' + localStorage.getItem('token')
-      : '';
-    return this.http.patch('http://localhost:3000/api/trips/' + trip.tripId + token, body, {headers})
+    const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
+    return this.http.patch('http://localhost:3000/api/trips/' + trip.tripId, body, {headers})
       .map((response: Response) => response.json())
       .catch((error: Response) => Observable.throw(error.json()));
   }
 
   deleteTrip(trip: Trip) {
-    const token = localStorage.getItem('token')
-      ? '?token=' + localStorage.getItem('token')
-      : '';
-    return this.http.delete('http://localhost:3000/api/trips/' + trip.tripId + token)
+    const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
+    return this.http.delete('http://localhost:3000/api/trips/' + trip.tripId, {headers})
       .map((response: Response) => {
         return response.json();
       })
