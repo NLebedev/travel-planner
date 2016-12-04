@@ -58,7 +58,10 @@ router.patch('/:id', function(req, res, next) {
     user.email = req.body.email || user.email;
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
-    user.password = req.body.password || user.password;
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 10)
+    };
+
     user.save(function(err, result) {
       if (err) {
         return res.status(500).json({

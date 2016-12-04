@@ -1,13 +1,32 @@
 import { Component, Input } from '@angular/core';
-import { User } from './user.model';
+import { User } from '../auth/user.model';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
-  template: ``,
-  styles: [``]
+  selector: 'tr[app-user]',
+  template: `
+    <td [hidden]="!visible">{{ user.firstName }}</td>
+    <td [hidden]="!visible">{{ user.lastName }}</td>
+    <td [hidden]="!visible">{{ user.email }}</td>
+    <td [hidden]="!visible">{{ user.role }}</td>
+    <td [hidden]="!visible">
+      <a (click)="onView()" >Trips</a>
+      <a (click)="onDelete()" >Delete</a>
+      <a (click)="onEdit()" >Edit</a>
+    </td>
+  `,
+  styles: [`
+    td {
+      vertical-align: middle;
+    }
+  `]
 })
+        // <div [hidden]="!visible">
+        // </div>
+        // <a (click)="onView()" >View trips</a>
+        // <a (click)="onEdit()" >Edit</a>
+        // <a (click)="onDelete()" >Delete</a>
 
 export class UserComponent {
   @Input() user: User;
@@ -19,6 +38,7 @@ export class UserComponent {
   }
 
   onEdit() {
+    console.log('this is the user that we have', this.user);
     this.userService.userToEdit = this.user;
     this.router.navigateByUrl('/users/form');
   }

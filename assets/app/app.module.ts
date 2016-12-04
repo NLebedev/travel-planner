@@ -16,6 +16,12 @@ import { SignupComponent } from './auth/signup.component';
 import { SigninComponent } from './auth/signin.component';
 import { AuthService } from './auth/auth.service';
 import { TripService } from './trips/trip.service';
+import { UserService } from './users/user.service';
+
+import { UsersComponent } from './users/users.component';
+import { UserListComponent } from './users/user-list.component';
+import { UserComponent } from './users/user.component';
+import { UserInputComponent } from './users/user-input.component';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
@@ -42,7 +48,11 @@ import { DropdownModule } from 'ng2-dropdown';
     LogoutComponent,
     SignupComponent,
     SigninComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    UsersComponent,
+    UserListComponent,
+    UserComponent,
+    UserInputComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +64,7 @@ import { DropdownModule } from 'ng2-dropdown';
     HttpModule,
     DropdownModule
   ],
-  providers: [AuthService, TripService, AuthGuard],
+  providers: [AuthService, TripService, UserService, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

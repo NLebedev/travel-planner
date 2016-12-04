@@ -1,18 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from './user.model';
+import { User } from '../auth/user.model';
 import { UserService } from './user.service';
 
 @Component({
   selector: 'app-user-list',
-  styleUrls: ['./users-list.component.css'],
   template: `
     <div class="col-md-8 col-md-offset-2">
       <div class="content-container">
-        <app-user 
-            *ngFor="let user of users"
-            [user]="user" 
-          >
-        </app-user>
+        <h1>User list</h1>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr app-user 
+                *ngFor="let user of users"
+                [user]="user" 
+              >
+            </tr>
+           
+          </tbody>
+        </table>
+
+        
       </div>
     </div>
   `,

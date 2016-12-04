@@ -24,7 +24,7 @@ import { AuthService } from './auth/auth.service';
             <li><a (click)="onLogout()">Logout</a></li>
         </ul>
       </div>
-      <a href="users">Users</a>
+      <a (click)="onUsers()" >Users</a>
  
     </header>
   `,
@@ -76,6 +76,10 @@ export class HeaderComponent implements OnInit {
 
   onClick() {
     this.router.navigateByUrl('/');
+  }
+
+  onUsers() {
+    this.router.navigateByUrl('/users');
   }
 
   ngOnInit() {
