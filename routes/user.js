@@ -161,11 +161,9 @@ router.post('/signin', function (req, res, next) {
       'secret',
       { expiresIn: 7200 }
     );
-    user.password = null;
     res.status(200).json({
       message: 'Successfully logged in',
-      token: token,
-      user: user
+      token: token
     });
 
   });

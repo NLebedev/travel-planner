@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './auth/auth.service';
-import jwt from 'jsonwebtoken';
+import { JwtHelper } from 'angular2-jwt';
 
 @Component({
   selector: 'app-header',
@@ -13,13 +12,13 @@ import jwt from 'jsonwebtoken';
           Travel Planner
         </div> 
       </div>
-      <div class="profile" *ngIf="firstName">
+      <div class="profile" *ngIf="user?.firstName">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
-        Hi, {{ firstName }}
+        Hi, {{ user.firstName }}
         <i class="fa fa-caret-down" aria-hidden="true"></i>
       </div>
-    <nav class="col-md-8 col-md-offset-2">
-    </nav>
+    
+      
     </header>
   `,
   styles: [`
@@ -56,17 +55,16 @@ import jwt from 'jsonwebtoken';
       // </ul>
 
 export class HeaderComponent implements OnInit {
-  firstName: string;
-  constructor(private router: Router, private authService: AuthService) {}
+  jwtHelper: JwtHelper = new JwtHelper();
+  user: any;
+  constructor(private router: Router) {}
 
   onClick() {
     this.router.navigateByUrl('/');
   }
 
   ngOnInit() {
-    this.firstName = 'Yo';
-    
-    console.log('first name', this.authService.firstName);
+    this.user = this.jwtHelper.decodeToken(localStorage.getItem('token')).user;
   }
 
 }

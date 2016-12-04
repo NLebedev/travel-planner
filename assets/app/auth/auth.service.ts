@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  firstName: string;
   constructor(private http: Http) {}
 
   signup(user: User) {
@@ -27,10 +26,6 @@ export class AuthService {
     return this.http.post('http://localhost:3000/api/users/signin', body, { headers })
       .map((response: Response) => {
         console.log('response after sign in', response.json());
-        const res = response.json();
-        if (res.user) {
-          this.firstName = res.user.firstName || this.firstName;
-        }
         return response.json();
       })
       .catch((error: Response) => {
