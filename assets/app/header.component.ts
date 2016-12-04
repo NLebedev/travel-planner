@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './auth/auth.service';
+import jwt from 'jsonwebtoken';
 
 @Component({
   selector: 'app-header',
@@ -11,16 +13,15 @@ import { Router } from '@angular/router';
           Travel Planner
         </div> 
       </div>
-      <div class="logout">
+      <div class="profile" *ngIf="firstName">
         <i class="fa fa-user-circle" aria-hidden="true"></i>
-        Hi, Nick
+        Hi, {{ firstName }}
         <i class="fa fa-caret-down" aria-hidden="true"></i>
       </div>
     <nav class="col-md-8 col-md-offset-2">
     </nav>
     </header>
   `,
-
   styles: [`
     .logo-wrapper {
       background-color: rgba(255,255,255,0.2);
@@ -39,7 +40,7 @@ import { Router } from '@angular/router';
       font-size: 13px;
       text-transform: uppercase;
     }
-    .logout {
+    .profile {
       float: right;
       color: rgb(199,199,199);
       margin-right: 50px;
@@ -54,12 +55,18 @@ import { Router } from '@angular/router';
       //   <li routerLinkActive="active"><a [routerLink]="['/auth']">Authentication</a></li>
       // </ul>
 
-export class HeaderComponent {
-
-  constructor(private router: Router) {}
+export class HeaderComponent implements OnInit {
+  firstName: string;
+  constructor(private router: Router, private authService: AuthService) {}
 
   onClick() {
     this.router.navigateByUrl('/');
+  }
+
+  ngOnInit() {
+    this.firstName = 'Yo';
+    
+    console.log('first name', this.authService.firstName);
   }
 
 }

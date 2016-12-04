@@ -113,7 +113,7 @@ router.delete('/:id', function(req, res, next) {
 
 
 
-
+// sign up
 router.post('/', function (req, res, next) {
   var user = new User({
     firstName: req.body.firstName,
@@ -135,6 +135,7 @@ router.post('/', function (req, res, next) {
   });
 });
 
+// sign in
 router.post('/signin', function (req, res, next) {
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {
@@ -160,10 +161,11 @@ router.post('/signin', function (req, res, next) {
       'secret',
       { expiresIn: 7200 }
     );
+    user.password = null;
     res.status(200).json({
       message: 'Successfully logged in',
       token: token,
-      userId: user._id
+      user: user
     });
 
   });

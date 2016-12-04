@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
+  firstName: string;
   constructor(private http: Http) {}
 
   signup(user: User) {
@@ -17,7 +18,6 @@ export class AuthService {
       .catch((error: Response) => {
         return Observable.throw(error.json());
       });
-      
   }
 
   signin(user: User) {
@@ -26,6 +26,11 @@ export class AuthService {
     console.log('signing in');
     return this.http.post('http://localhost:3000/api/users/signin', body, { headers })
       .map((response: Response) => {
+        console.log('response after sign in', response.json());
+        const res = response.json();
+        if (res.user) {
+          this.firstName = res.user.firstName || this.firstName;
+        }
         return response.json();
       })
       .catch((error: Response) => {
@@ -33,7 +38,6 @@ export class AuthService {
         console.log('I am here', error.json());
         return Observable.throw(error.json());
       });
-      
   }
 
   logout() {
@@ -43,5 +47,4 @@ export class AuthService {
   isLoggedIn() {
     return localStorage.getItem('token') !== null;
   }
-
 }
