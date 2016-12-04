@@ -25,6 +25,7 @@ import { User } from '../auth/user.model';
 export class UserInputComponent implements OnInit {
   myForm: FormGroup;
   editing: any = {};
+  role: string = 'user';
 
   constructor(private userService: UserService, private router: Router, private _location: Location) {}
 
@@ -36,6 +37,7 @@ export class UserInputComponent implements OnInit {
       this.myForm.value.firstName,
       this.myForm.value.lastName,
       this.userService.userToEdit.userId,
+      this.myForm.value.role,
     );
     this.userService.updateUser(user)
       .subscribe(
@@ -77,7 +79,8 @@ export class UserInputComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$')
       ]),
-      password: new FormControl(null, Validators.required)
+      password: new FormControl(null, Validators.required),
+      role: new FormControl(this.userService.userToEdit.role)
     });
   }
 

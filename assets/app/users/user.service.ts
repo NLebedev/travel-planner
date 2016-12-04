@@ -26,6 +26,7 @@ export class UserService {
             user.firstName,
             user.lastName,
             user._id,
+            user.role
           ));
         }
         this.users = transformedUsers;
