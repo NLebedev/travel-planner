@@ -111,8 +111,6 @@ router.delete('/:id', function(req, res, next) {
   })
 });
 
-
-
 // sign up
 router.post('/', function (req, res, next) {
   var user = new User({
@@ -121,16 +119,23 @@ router.post('/', function (req, res, next) {
     password: bcrypt.hashSync(req.body.password, 10),
     email: req.body.email
   });
-  user.save(function(err, result) {
+  user.save(function(err, user) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
-    } 
+    }
+    var token = jwt.sign(
+      { user: user },
+      'secret',
+      { expiresIn: 7200 }
+    );
+    user.password = null;
     res.status(201).json({
       message: 'User created',
-      obj: result
+      token: token,
+      user: user
     });
   });
 });
@@ -161,9 +166,11 @@ router.post('/signin', function (req, res, next) {
       'secret',
       { expiresIn: 7200 }
     );
+    user.password = null;
     res.status(200).json({
       message: 'Successfully logged in',
-      token: token
+      token: token,
+      user: user
     });
 
   });

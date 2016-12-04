@@ -7,11 +7,13 @@ import { UserService } from './user.service';
   styleUrls: ['./users-list.component.css'],
   template: `
     <div class="col-md-8 col-md-offset-2">
-      <app-user 
-          *ngFor="let user of users"
-          [user]="user" 
-        >
+      <div class="content-container">
+        <app-user 
+            *ngFor="let user of users"
+            [user]="user" 
+          >
         </app-user>
+      </div>
     </div>
   `,
 })

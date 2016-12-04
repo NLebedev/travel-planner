@@ -28,6 +28,8 @@ import { MyDatePickerModule } from 'mydatepicker';
 
 import { MomentModule } from 'angular2-moment';
 
+import { DropdownModule } from 'ng2-dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,7 @@ import { MomentModule } from 'angular2-moment';
     MyDatePickerModule,
     MomentModule,
     HttpModule,
+    DropdownModule
   ],
   providers: [AuthService, TripService, AuthGuard],
   bootstrap: [AppComponent]

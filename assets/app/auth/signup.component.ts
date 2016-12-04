@@ -26,6 +26,9 @@ export class SignupComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('uFirstName', data.user.firstName);
+          localStorage.setItem('uid', data.user._id);
           this.router.navigateByUrl('/trips');
         },
         error => console.error(error)

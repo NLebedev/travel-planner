@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { JwtHelper } from 'angular2-jwt';
+import { User } from './auth/user.model';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +13,19 @@ import { JwtHelper } from 'angular2-jwt';
           Travel Planner
         </div> 
       </div>
-      <div class="profile" *ngIf="user?.firstName">
-        <i class="fa fa-user-circle" aria-hidden="true"></i>
-        Hi, {{ user.firstName }}
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <div class="dropdown" dropdown>
+        <div class="profile" *ngIf="user?.firstName" dropdown-open>
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+          Hi, {{ user.firstName }}
+          <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </div>
+        <ul class="dropdown-menu">
+            <li><a href="#">Profile</a></li>
+            <li><a (click)="onLogout()">Logout</a></li>
+        </ul>
       </div>
-    
-      
+      <a href="users">Users</a>
+ 
     </header>
   `,
   styles: [`
@@ -46,6 +53,15 @@ import { JwtHelper } from 'angular2-jwt';
       font-size: 14px;
       cursor: pointer;
     }
+    .dropdown-menu {
+      text-align: center;
+      float: right;
+      position: absolute;
+      top: 25px;
+      right: 36px;
+      left: initial;
+      min-width: 105px;
+    }
     
   `]
 })
@@ -55,16 +71,21 @@ import { JwtHelper } from 'angular2-jwt';
       // </ul>
 
 export class HeaderComponent implements OnInit {
-  jwtHelper: JwtHelper = new JwtHelper();
-  user: any;
-  constructor(private router: Router) {}
+  user: User;
+  constructor(private router: Router, private authService: AuthService) {}
 
   onClick() {
     this.router.navigateByUrl('/');
   }
 
   ngOnInit() {
-    this.user = this.jwtHelper.decodeToken(localStorage.getItem('token')).user;
+    this.user = new User(null, null, localStorage.getItem('uFirstName'));
+    this.authService.user.subscribe(user => this.user = user);
+  }
+
+  onLogout() {
+    this.authService.logout();
+    this.router.navigate(['/auth','signin'])
   }
 
 }

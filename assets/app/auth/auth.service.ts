@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/Rx';
 
@@ -7,13 +7,19 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
+  user = new EventEmitter<User>();
   constructor(private http: Http) {}
 
   signup(user: User) {
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post('http://localhost:3000/api/users', body, { headers })
-      .map((response: Response) => response.json())
+      .map((response: Response) => {
+        const res = response.json();
+        this.user.emit(res.user);
+        console.log('successssss', res.user);
+        return res;
+      })
       .catch((error: Response) => {
         return Observable.throw(error.json());
       });
@@ -25,7 +31,9 @@ export class AuthService {
     console.log('signing in');
     return this.http.post('http://localhost:3000/api/users/signin', body, { headers })
       .map((response: Response) => {
-        console.log('response after sign in', response.json());
+        const res = response.json();
+        this.user.emit(res.user);
+        console.log('successssss', res.user);
         return response.json();
       })
       .catch((error: Response) => {
@@ -37,6 +45,7 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+    this.user.emit(null);
   }
 
   isLoggedIn() {
