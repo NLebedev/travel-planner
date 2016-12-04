@@ -5,8 +5,15 @@ var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
 
+var checkAdmin = function(userId) {
+  // check role in db
+  // if admin, return true
+  // return false
+};
+
 // get Users
 router.get('/', function (req, res, next) {
+  // TODO: allow this only for user managers and admins
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -14,27 +21,44 @@ router.get('/', function (req, res, next) {
       error: {message: 'Provided token is wrong'}
     });
   }
-  User.find({}, function(err, users) {
+
+  User.findById(decoded.user._id, function(err, user) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-    // not sending the passwords
-    users = users.map(function(user) {
-      user.password = null;
-      return user;
+
+    if (user.role != 'admin' && user.role != 'manager') {
+      return res.status(403).json({
+        title: 'Access denied',
+        error: {message: 'Restricted'}
+      });
+    }
+    User.find({}, function(err, users) {
+      if (err) {
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      // not sending the passwords
+      users = users.map(function(user) {
+        user.password = null;
+        return user;
+      });
+      res.status(200).json({
+        message: 'Success',
+        obj: users
+      })
     });
-    res.status(200).json({
-      message: 'Success',
-      obj: users
-    })
   });
 });
 
 // update user
 router.patch('/:id', function(req, res, next) {
+  // TODO: allow this only for user managers and admins
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -58,6 +82,10 @@ router.patch('/:id', function(req, res, next) {
     user.email = req.body.email || user.email;
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
+    
+    // TODO: update role, but only if sent from admin
+    user.role = req.body.role || user.role;
+
     if (req.body.password) {
       user.password = bcrypt.hashSync(req.body.password, 10)
     };
@@ -79,6 +107,7 @@ router.patch('/:id', function(req, res, next) {
 
 // delete user
 router.delete('/:id', function(req, res, next) {
+  // TODO: allow this only for admins and user managers
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -120,7 +149,8 @@ router.post('/', function (req, res, next) {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     password: bcrypt.hashSync(req.body.password, 10),
-    email: req.body.email
+    email: req.body.email,
+    role: 'user'
   });
   user.save(function(err, user) {
     if (err) {
