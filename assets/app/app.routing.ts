@@ -12,7 +12,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: 'trips', pathMatch: 'full' },
   { path: 'trips', component: TripsComponent, children: TRIPS_ROUTES, canActivate: [AuthGuard] },
-  { path: 'users', component: UsersComponent, children: USERS_ROUTES},
+  { path: 'users', component: UsersComponent, children: USERS_ROUTES, canActivate: [AuthGuard] },
   { path: 'auth', component: AuthenticationComponent, children: AUTH_ROUTES },
   { path: '**', component: PageNotFoundComponent},
 ]; 
