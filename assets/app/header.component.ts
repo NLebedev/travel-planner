@@ -20,7 +20,6 @@ import { AuthService } from './auth/auth.service';
           <i class="fa fa-caret-down" aria-hidden="true"></i>
         </div>
         <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
             <li><a (click)="onLogout()">Logout</a></li>
         </ul>
       </div>
