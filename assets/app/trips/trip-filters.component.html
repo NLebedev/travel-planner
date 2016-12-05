@@ -1,4 +1,12 @@
 <button type="button" class="btn btn-primary"
+  (click)="onPrintDiv('trips')">
+  Print current trips
+</button>
+<button type="button" class="btn btn-primary"
+  (click)="printTripsForNextMonth('trips')">
+  Print trips for next month
+</button>
+<button type="button" class="btn btn-primary"
   (click)="
     height = height ? 0 : el.scrollHeight;
     buttonCaption = buttonCaption === 'Show Filters' ? 'Hide Filters' : 'Show Filters';

@@ -11,10 +11,6 @@ import * as moment from 'moment';
   styleUrls: ['./trips-list.component.css'],
   template: `
     <div class="col-md-8 col-md-offset-2">
-      <button type="button" class="btn btn-primary"
-      (click)="onPrintDiv('trips')">
-        Print trips
-      </button>
       <app-trip-filters 
         (onStartFilter)="onStartFilter($event)"
         (onEndFilter)="onEndFilter($event)"
@@ -35,9 +31,9 @@ export class TripListComponent implements OnInit {
   trips: Trip[];
   filteredTrips: Trip[];
   userId: string;
-  startFilter: string = '0000-01-01';
-  endFilter: string = '9999-12-31';
-  destinationFilter: string;
+  startFilter: string = '';
+  endFilter: string = '';
+  destinationFilter: string = '';
   constructor(
     private tripService: TripService,
     private route: ActivatedRoute,
@@ -79,28 +75,7 @@ export class TripListComponent implements OnInit {
     this.filteredTrips = this.filterTrips(this.trips);
   }
 
-  
-  onPrintDiv(divName) {
-    let printContents = document.getElementById(divName).innerHTML;
-    // remove links
-    printContents = printContents.replace(new RegExp('>Edit<', 'g'), '><');
-    printContents = printContents.replace(new RegExp('>Delete<', 'g'), '><');
-    const popupWin = window.open('', '_blank', 'width=300,height=300');
-    popupWin.document.open();
-    popupWin.document.write(`
-      <html>
-        <head>
-          <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-          <link rel='stylesheet' href='/stylesheets/style.css'/>
-        </head>
-        <body onload="window.print()">
-        <h1>My trip list</h1>
-        ${printContents}
-        </body>
-      </html>`
-    );
-    popupWin.document.close();
-  } 
+
 
   ngOnInit() {
     // this.route.params
