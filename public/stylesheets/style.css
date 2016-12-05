@@ -90,6 +90,10 @@ div .mydp, .selection, .selectiongroup {
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
+.filters-container .mydp  {
+  width: 150px !important;
+}
+
 .mydp .selectiongroup .selection {
   font-size: 14px !important;
   font-weight: normal;
@@ -125,6 +129,8 @@ div .mydp .selector {
   box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
 }
 
-
+/*.mpdp {
+  width: 150px;
+}*/
 
 /* TRIP LIST */

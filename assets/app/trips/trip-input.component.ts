@@ -70,7 +70,6 @@ export class TripInputComponent implements OnInit {
   endDateChanged(event:any) {
    this.disableSince = event.date;
    this.endDate = event.formatted;
-   console.log('new end date', this.endDate);
   }
 
   createDatePickerOptions(mode) {

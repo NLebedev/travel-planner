@@ -8,6 +8,8 @@ import { TripComponent } from './trips/trip.component';
 import { TripListComponent } from './trips/trip-list.component';
 import { TripsComponent } from './trips/trips.component';
 import { TripInputComponent } from './trips/trip-input.component';
+import { TripFiltersComponent } from './trips/trip-filters.component';
+
 
 import { AuthenticationComponent } from './auth/authentication.component';
 import { HeaderComponent } from './header.component';
@@ -46,6 +48,7 @@ import { DropdownModule } from 'ng2-dropdown';
     TripListComponent,
     TripsComponent,
     TripInputComponent,
+    TripFiltersComponent,
     AuthenticationComponent,
     HeaderComponent,
     LogoutComponent,
