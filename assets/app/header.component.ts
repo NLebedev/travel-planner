@@ -21,7 +21,7 @@ import { AuthService } from './auth/auth.service';
         </div>
         <ul class="dropdown-menu">
             <li><a (click)="onLogout()">Logout</a></li>
-            <li><a (click)="onUsers()" *ngIf="user.role !== 'user'">Admin panel</a></li>
+            <li><a (click)="onUsers()" *ngIf="user?.role !== 'user'">Admin panel</a></li>
         </ul>
       </div>
     </header>

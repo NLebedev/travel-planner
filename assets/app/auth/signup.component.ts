@@ -11,30 +11,42 @@ import { User } from './user.model';
 })
 export class SignupComponent implements OnInit {
   myForm: FormGroup;
+  showingErrors: boolean;
+  serverError: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-   console.log(this.myForm);
-    const user = new User(
-      this.myForm.value.email,
-      this.myForm.value.password,
-      this.myForm.value.firstName,
-      this.myForm.value.lastName,
-    );
-    this.authService.signup(user)
-      .subscribe(
-        data => {
-          console.log(data);
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('uFirstName', data.user.firstName);
-          localStorage.setItem('uid', data.user._id);
-          localStorage.setItem('role', data.role);
-          this.router.navigateByUrl('/trips');
-        },
-        error => console.error(error)
+   if (!this.myForm.valid) {
+      console.log('form not valid!');
+      this.showingErrors = true;
+      this.serverError = '';
+    } else {
+      this.showingErrors = false;
+      console.log(this.myForm);
+      const user = new User(
+        this.myForm.value.email,
+        this.myForm.value.password,
+        this.myForm.value.firstName,
+        this.myForm.value.lastName,
       );
-    this.myForm.reset();
+      this.authService.signup(user)
+        .subscribe(
+          data => {
+            console.log(data);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('uFirstName', data.user.firstName);
+            localStorage.setItem('uid', data.user._id);
+            localStorage.setItem('role', data.role);
+            this.router.navigateByUrl('/trips');
+          },
+          error => {
+            this.serverError = 'Signup failed: ' + error.error.message;
+            console.error(error);
+          }
+        );
+      this.myForm.reset();
+    }
   }
 
   ngOnInit() {

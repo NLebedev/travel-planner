@@ -11,26 +11,40 @@ import { AuthService } from './auth.service';
 })
 export class SigninComponent implements OnInit {
   myForm: FormGroup;
+  showingErrors: boolean;
+  serverError: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    const user = new User(this.myForm.value.email, this.myForm.value.password);
-    this.authService.signin(user)
-      .subscribe(
-        data => {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('uFirstName', data.user.firstName);
-          localStorage.setItem('uid', data.user._id);
-          localStorage.setItem('role', data.user.role);
-          this.router.navigateByUrl('/trips');
-        },
-        error => console.error(error)
-      );
-    this.myForm.reset();
+    if (!this.myForm.valid) {
+      console.log('form not valid!');
+      this.showingErrors = true;
+      this.serverError = '';
+    } else {
+      this.showingErrors = false;
+      const user = new User(this.myForm.value.email, this.myForm.value.password);
+      
+      this.authService.signin(user)
+        .subscribe(
+          data => {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('uFirstName', data.user.firstName);
+            localStorage.setItem('uid', data.user._id);
+            localStorage.setItem('role', data.user.role);
+            this.router.navigateByUrl('/trips');
+          },
+          error => {
+            this.serverError = 'Login failed: ' + error.error.message;
+            console.error(error);
+          }
+        );
+      this.myForm.reset();
+    }
   }
 
   ngOnInit() {
+    this.showingErrors = false;
     this.myForm = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
@@ -39,4 +53,5 @@ export class SigninComponent implements OnInit {
       password: new FormControl(null, Validators.required)
     })
   }
+
 }

@@ -11,6 +11,11 @@
           formControlName="firstName"
         >
       </div>
+      <div
+        class="alert alert-danger" *ngIf="!myForm.controls['firstName'].valid && showingErrors"
+      >
+        Wrong first name format
+      </div>
       <div class="form-group">
         <label for="lastName">Last Name</label>
         <input 
@@ -20,14 +25,24 @@
           formControlName="lastName"
         >
       </div>
+      <div
+        class="alert alert-danger" *ngIf="!myForm.controls['lastName'].valid && showingErrors"
+      >
+        Wrong last name format
+      </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input
-          type="email"
+          type="text"
           id="email"
           class="form-control"
           formControlName="email"
         >
+      </div>
+      <div
+        class="alert alert-danger" *ngIf="!myForm.controls['email'].valid && showingErrors"
+      >
+        Wrong email format
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -38,10 +53,19 @@
           formControlName="password"
         >
       </div>
+      <div
+        class="alert alert-danger" *ngIf="!myForm.controls['password'].valid && showingErrors"
+      >
+        Password can't be blank
+      </div>
+      <div
+        class="alert alert-danger" *ngIf="serverError"
+      >
+        {{ serverError }}
+      </div>
       <button 
         class="btn btn-primary"
         type="submit"
-        [disabled]="!myForm.valid"
       >
         Create account
       </button>
