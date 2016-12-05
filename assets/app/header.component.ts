@@ -21,10 +21,9 @@ import { AuthService } from './auth/auth.service';
         </div>
         <ul class="dropdown-menu">
             <li><a (click)="onLogout()">Logout</a></li>
+            <li><a (click)="onUsers()" *ngIf="user.role !== 'user'">Admin panel</a></li>
         </ul>
       </div>
-      <a (click)="onUsers()" >Users</a>
- 
     </header>
   `,
   styles: [`
@@ -60,6 +59,15 @@ import { AuthService } from './auth/auth.service';
       right: 36px;
       left: initial;
       min-width: 105px;
+    }
+    .admin-btn {
+      position: absolute;
+      right: 138px;
+      top: 73px;
+      // color: #d9534f;
+    }
+    li {
+      text-align: right;
     }
     
   `]

@@ -1,19 +1,25 @@
-<button type="button" class="btn btn-primary"
-  (click)="onPrintDiv('trips')">
-  Print current trips
-</button>
-<button type="button" class="btn btn-primary"
-  (click)="printTripsForNextMonth('trips')">
-  Print trips for next month
-</button>
-<button type="button" class="btn btn-primary"
+<button type="button" class="btn btn-default"
   (click)="
     height = height ? 0 : el.scrollHeight;
     buttonCaption = buttonCaption === 'Show Filters' ? 'Hide Filters' : 'Show Filters';
-
     ">
-    {{ buttonCaption || 'Show Filters' }}
+    
+    <i class="fa fa-filter" aria-hidden="true"></i>
+    {{ 'Filters' }}
 </button>
+<div class="dropdown my-dropdown" dropdown>
+  <div dropdown-open>
+    <span class="print">
+      <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <i class="fa fa-print" aria-hidden="true"></i>
+    </span>
+  </div>
+  <ul class="dropdown-menu">
+    <li><a (click)="onPrintDiv('trips')">Print trips</a></li>
+    <li><a (click)="printTripsForNextMonth('trips')">Print trips for next month</a></li>
+  </ul>
+</div>
+
 <div class="block" 
   [style.height]="height + 'px'"
   [style.overflow]="height ? 'initial' : 'hidden' "

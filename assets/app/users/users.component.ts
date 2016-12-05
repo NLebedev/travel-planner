@@ -5,9 +5,6 @@ import { Component } from '@angular/core';
   template: `
   <header class="row spacing">
     <nav class="col-md-8 col-md-offset-2">
-      <ul class="nav nav-pills">
-        <li routerLinkActive="active"><a [routerLink]="['list']">All users</a></li>
-      </ul>
     </nav>
   </header>
   <div class="row spacing">

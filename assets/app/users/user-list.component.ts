@@ -7,7 +7,7 @@ import { UserService } from './user.service';
   template: `
     <div class="col-md-8 col-md-offset-2">
       <div class="content-container">
-        <h1>User list</h1>
+        <h1>User details</h1>
         <table class="table table-hover">
           <thead>
             <tr>
