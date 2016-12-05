@@ -25,7 +25,7 @@ import { User } from '../auth/user.model';
 export class UserInputComponent implements OnInit {
   myForm: FormGroup;
   editing: any = {};
-  role: string = 'user';
+  myRole: string = 'user';
 
   constructor(private userService: UserService, private router: Router, private _location: Location) {}
 
@@ -82,6 +82,9 @@ export class UserInputComponent implements OnInit {
       password: new FormControl(null, Validators.required),
       role: new FormControl(this.userService.userToEdit.role)
     });
+
+    this.myRole = localStorage.getItem('role');
+
   }
 
 }

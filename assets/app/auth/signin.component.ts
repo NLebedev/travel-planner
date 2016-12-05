@@ -22,6 +22,7 @@ export class SigninComponent implements OnInit {
           localStorage.setItem('token', data.token);
           localStorage.setItem('uFirstName', data.user.firstName);
           localStorage.setItem('uid', data.user._id);
+          localStorage.setItem('role', data.user.role);
           this.router.navigateByUrl('/trips');
         },
         error => console.error(error)

@@ -26,6 +26,9 @@ import { UserInputComponent } from './users/user-input.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 
 import { AuthGuard } from './auth/auth.guard';
+import { ManagerGuard } from './users/manager.guard';
+import { AdminGuard } from './users/admin.guard';
+
 
 import { routing } from './app.routing';
 
@@ -64,7 +67,7 @@ import { DropdownModule } from 'ng2-dropdown';
     HttpModule,
     DropdownModule
   ],
-  providers: [AuthService, TripService, UserService, AuthGuard ],
+  providers: [AuthService, TripService, UserService, AuthGuard, ManagerGuard, AdminGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

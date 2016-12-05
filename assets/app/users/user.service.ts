@@ -36,7 +36,6 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    console.log('got this user in update', user);
     const body = JSON.stringify(user);
     const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
     return this.http.patch('http://localhost:3000/api/users/' + user.userId, body, {headers})

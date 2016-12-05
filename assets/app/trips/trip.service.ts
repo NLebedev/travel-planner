@@ -32,9 +32,10 @@ export class TripService {
       .catch((error: Response) => Observable.throw(error.json()));
   }
 
-  getTrips() {
+  getTrips(id) {
+    const userId = id || localStorage.getItem('uid');
     const headers = new Headers({'Content-Type': 'application/json', token: localStorage.getItem('token')});
-    return this.http.get('http://localhost:3000/api/trips/user_trips', {headers})
+    return this.http.get('http://localhost:3000/api/trips/user_trips/' + userId, {headers})
       .map((response: Response) => {
         const trips = response.json().obj;
         let transformedTrips: Trip[] = [];
@@ -49,7 +50,6 @@ export class TripService {
           ));
         }
         this.trips = transformedTrips;
-        console.log('got trips', transformedTrips);
         return transformedTrips;
       })
       .catch((error: Response) => Observable.throw(error.json()));

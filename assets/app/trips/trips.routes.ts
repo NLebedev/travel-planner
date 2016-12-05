@@ -6,5 +6,7 @@ import { TripInputComponent } from './trip-input.component';
 export const TRIPS_ROUTES: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
   { path: 'list', component: TripListComponent },
+  { path: 'list/:id', component: TripListComponent },
   { path: 'form', component: TripInputComponent },
 ];
+  // { path: 'user-trips/:id', component: UserTripListComponent },

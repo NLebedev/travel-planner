@@ -7,28 +7,7 @@ var Trip = require('../models/trip');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
-router.get('/user_trips', function (req, res, next) {
-  var decoded = jwt.decode(req.headers.token);
-  if (!decoded || !decoded.user || !decoded.user._id) {
-    return res.status(500).json({
-      title: 'Wrong token',
-      error: {message: 'Provided token is wrong'}
-    });
-  }
-  Trip.find({ user: new ObjectId(decoded.user._id) }, function(err, trips) {
-    if (err) {
-      return res.status(500).json({
-        title: 'An error occured',
-        error: err
-      });
-    }
-    res.status(200).json({
-      message: 'Success',
-      obj: trips
-    })
-  });
-});
-
+// check authentication
 router.use('/', function(req, res, next) {
   jwt.verify(req.headers.token, 'secret', function(err, decoded) {
     if (err) {
@@ -41,6 +20,49 @@ router.use('/', function(req, res, next) {
   })
 });
 
+// get user trips
+router.get('/user_trips/:id', function (req, res, next) {
+  var decoded = jwt.decode(req.headers.token);
+  if (!decoded || !decoded.user || !decoded.user._id) {
+    return res.status(500).json({
+      title: 'Wrong token',
+      error: {message: 'Provided token is wrong'}
+    });
+  }
+
+  // if request was sent not from admin and requesting other user's trips, deny
+  User.findById(decoded.user._id, function(err, userSender) {
+    if (err) {
+      return res.status(500).json({
+        title: 'An error occured',
+        error: err
+      });
+    }
+    // restrict to admins and owned trips
+    if (userSender.role !== 'admin' && req.params.id !== decoded.user._id) {
+      return res.status(403).json({
+        title: 'Access denied',
+        error: {message: 'Restricted'}
+      });
+    }
+
+    var userId = req.params.id || decoded.user._id;
+    Trip.find({ user: new ObjectId(userId) }, function(err, trips) {
+      if (err) {
+        return res.status(500).json({
+          title: 'An error occured',
+          error: err
+        });
+      }
+      res.status(200).json({
+        message: 'Success',
+        obj: trips
+      })
+    });
+  });
+});
+
+// create a trip
 router.post('/', function (req, res, next) {
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
@@ -88,7 +110,7 @@ router.post('/', function (req, res, next) {
   });
 });
 
-
+// change a trip
 router.patch('/:id', function(req, res, next) {
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
@@ -97,42 +119,55 @@ router.patch('/:id', function(req, res, next) {
       error: {message: 'Provided token is wrong'}
     });
   }
-  Trip.findById(req.params.id, function(err, trip) {
+  
+  User.findById(decoded.user._id, function(err, userSender) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-    if (!trip) {
-      return res.status(500).json({
-        title: 'No trip found!',
-        error: {message: 'Trip not found'}
-      });
-    }
-    if (trip.user != decoded.user._id) {
-      return res.status(401).json({
-        title: 'Not Authenticated',
-        error: {message:'Users do not match'}
-      });
-    }
-    trip.destination = req.body.destination;
-    trip.startDate = req.body.startDate;
-    trip.endDate = req.body.endDate;
-    trip.comment = req.body.comment;
-    trip.save(function(err, result) {
+
+    Trip.findById(req.params.id, function(err, trip) {
       if (err) {
         return res.status(500).json({
           title: 'An error occured',
           error: err
         });
       }
-      res.status(200).json({
-        message: 'Updated trip',
-        obj: result
+      if (!trip) {
+        return res.status(500).json({
+          title: 'No trip found!',
+          error: {message: 'Trip not found'}
+        });
+      }
+      
+      // restrict to admins and owned trips
+      if (userSender.role !== 'admin' && trip.user !== decoded.user._id) {
+        return res.status(403).json({
+          title: 'Access denied',
+          error: {message: 'Restricted'}
+        });
+      }
+
+      trip.destination = req.body.destination;
+      trip.startDate = req.body.startDate;
+      trip.endDate = req.body.endDate;
+      trip.comment = req.body.comment;
+      trip.save(function(err, result) {
+        if (err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        res.status(200).json({
+          message: 'Updated trip',
+          obj: result
+        });
       });
     });
-  })
+  });
 });
 
 router.delete('/:id', function(req, res, next) {
@@ -143,59 +178,53 @@ router.delete('/:id', function(req, res, next) {
       error: {message: 'Provided token is wrong'}
     });
   }
-  Trip.findById(req.params.id, function(err, trip) {
+
+  User.findById(decoded.user._id, function(err, userSender) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-    if (!trip) {
-      return res.status(500).json({
-        title: 'No trip found!',
-        error: {message: 'Trip not found'}
-      });
-    }
-    if (trip.user != decoded.user._id) {
-      return res.status(401).json({
-        title: 'Not Authenticated',
-        error: {error: {message:'Users do not match'}}
-      });
-    }
-    trip.remove(function(err, result) {
+
+    Trip.findById(req.params.id, function(err, trip) {
       if (err) {
         return res.status(500).json({
           title: 'An error occured',
           error: err
         });
       }
-      res.status(200).json({
-        message: 'Deleted trip',
-        obj: result
+      if (!trip) {
+        return res.status(500).json({
+          title: 'No trip found!',
+          error: {message: 'Trip not found'}
+        });
+      }
+      
+      // restrict to admins and owned trips
+      if (userSender.role !== 'admin' && trip.user !== decoded.user._id) {
+        return res.status(403).json({
+          title: 'Access denied',
+          error: {message: 'Restricted'}
+        });
+      }
+
+      trip.remove(function(err, result) {
+        if (err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        res.status(200).json({
+          message: 'Deleted trip',
+          obj: result
+        });
       });
     });
-  })
+  });
 });
 
-
-
-// TODO: only allow this route to admins
-// router.get('/', function(req, res, next) {
-//   Trip.find()
-//     .populate('user', 'firstName')
-//     .exec(function(err, trips) {
-//       if (err) {
-//         return res.status(500).json({
-//           title: 'An error occured',
-//           error: err
-//         });
-//       } 
-//       res.status(200).json({
-//         message: 'Success',
-//         obj: trips
-//       }) 
-//     });
-// });
 
 
 

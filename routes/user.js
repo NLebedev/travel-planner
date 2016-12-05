@@ -5,15 +5,8 @@ var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
 
-var checkAdmin = function(userId) {
-  // check role in db
-  // if admin, return true
-  // return false
-};
-
 // get Users
 router.get('/', function (req, res, next) {
-  // TODO: allow this only for user managers and admins
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -22,15 +15,15 @@ router.get('/', function (req, res, next) {
     });
   }
 
-  User.findById(decoded.user._id, function(err, user) {
+  User.findById(decoded.user._id, function(err, userSender) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-
-    if (user.role != 'admin' && user.role != 'manager') {
+    // restrict to admins and managers
+    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
       return res.status(403).json({
         title: 'Access denied',
         error: {message: 'Restricted'}
@@ -66,43 +59,62 @@ router.patch('/:id', function(req, res, next) {
       error: {message: 'Provided token is wrong'}
     });
   }
-  User.findById(req.params.id, function(err, user) {
+
+  User.findById(decoded.user._id, function(err, userSender) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-    if (!user) {
-      return res.status(500).json({
-        title: 'No user found!',
-        error: {message: 'User not found'}
+    // restrict to admins and managers
+    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
+      return res.status(403).json({
+        title: 'Access denied',
+        error: {message: 'Restricted'}
       });
     }
-    user.email = req.body.email || user.email;
-    user.firstName = req.body.firstName || user.firstName;
-    user.lastName = req.body.lastName || user.lastName;
-    
-    // TODO: update role, but only if sent from admin
-    user.role = req.body.role || user.role;
 
-    if (req.body.password) {
-      user.password = bcrypt.hashSync(req.body.password, 10)
-    };
-
-    user.save(function(err, result) {
+    User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(500).json({
           title: 'An error occured',
           error: err
         });
       }
-      res.status(200).json({
-        message: 'Updated user',
-        obj: result
+      if (!user) {
+        return res.status(500).json({
+          title: 'No user found!',
+          error: {message: 'User not found'}
+        });
+      }
+      user.email = req.body.email || user.email;
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
+      
+      // update role, but only if sent from admin
+      if (userSender.role === 'admin') {
+        user.role = req.body.role || user.role;
+      }
+
+      if (req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, 10)
+      };
+
+      user.save(function(err, result) {
+        if (err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        res.status(200).json({
+          message: 'Updated user',
+          obj: result
+        });
       });
     });
-  })
+  });
 });
 
 // delete user
@@ -115,32 +127,49 @@ router.delete('/:id', function(req, res, next) {
       error: {message: 'Provided token is wrong'}
     });
   }
-  User.findById(req.params.id, function(err, user) {
+  
+  User.findById(decoded.user._id, function(err, userSender) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
         error: err
       });
     }
-    if (!user) {
-      return res.status(500).json({
-        title: 'No user found!',
-        error: {message: 'User not found'}
+    // restrict to admins and managers
+    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
+      return res.status(403).json({
+        title: 'Access denied',
+        error: {message: 'Restricted'}
       });
     }
-    user.remove(function(err, result) {
+
+    User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(500).json({
           title: 'An error occured',
           error: err
         });
       }
-      res.status(200).json({
-        message: 'Deleted user',
-        obj: result
+      if (!user) {
+        return res.status(500).json({
+          title: 'No user found!',
+          error: {message: 'User not found'}
+        });
+      }
+      user.remove(function(err, result) {
+        if (err) {
+          return res.status(500).json({
+            title: 'An error occured',
+            error: err
+          });
+        }
+        res.status(200).json({
+          message: 'Deleted user',
+          obj: result
+        });
       });
     });
-  })
+  });  
 });
 
 // sign up

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     <td [hidden]="!visible">{{ user.email }}</td>
     <td [hidden]="!visible">{{ user.role }}</td>
     <td [hidden]="!visible">
-      <a (click)="onView()" >Trips</a>
+      <a (click)="onView()" *ngIf="myRole === 'admin'">Trips</a>
       <a (click)="onDelete()" >Delete</a>
       <a (click)="onEdit()" >Edit</a>
     </td>
@@ -22,15 +22,10 @@ import { Router } from '@angular/router';
     }
   `]
 })
-        // <div [hidden]="!visible">
-        // </div>
-        // <a (click)="onView()" >View trips</a>
-        // <a (click)="onEdit()" >Edit</a>
-        // <a (click)="onDelete()" >Delete</a>
 
 export class UserComponent {
   @Input() user: User;
-
+  myRole: string;
   visible: boolean = true;
 
   constructor(private userService: UserService, private router: Router) {
@@ -38,7 +33,6 @@ export class UserComponent {
   }
 
   onEdit() {
-    console.log('this is the user that we have', this.user);
     this.userService.userToEdit = this.user;
     this.router.navigateByUrl('/users/form');
   }
@@ -48,5 +42,12 @@ export class UserComponent {
       .subscribe(result => console.log('deletion result:', result));
     this.visible = false; 
   }
+
+  onView() {
+    this.router.navigate(['/trips/list', this.user.userId]);
+  }
    
+  ngOnInit() {
+    this.myRole = localStorage.getItem('role');
+  }
 }
