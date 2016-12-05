@@ -14,6 +14,7 @@ import * as moment from 'moment';
       <app-trip-filters 
         (onStartFilter)="onStartFilter($event)"
         (onEndFilter)="onEndFilter($event)"
+        (onDestinationFilter)="onDestinationFilter($event)"
       ></app-trip-filters>
       <app-trip 
         *ngFor="let trip of filteredTrips"
@@ -30,6 +31,7 @@ export class TripListComponent implements OnInit {
   userId: string;
   startFilter: string;
   endFilter: string;
+  destinationFilter: string;
   constructor(
     private tripService: TripService,
     private route: ActivatedRoute,
@@ -45,22 +47,29 @@ export class TripListComponent implements OnInit {
       const startFilterDate = moment(startFilter);
       const endFilterDate = moment(endFilter);
       const tripStartDate = moment(trip.startDate);
-      if (startFilterDate.diff(tripStartDate) <= 0 && endFilterDate.diff(tripStartDate) >= 0) {
+      if (startFilterDate.diff(tripStartDate) <= 0 
+        && endFilterDate.diff(tripStartDate) >= 0
+        && trip.destination.includes(this.destinationFilter)
+      ) {
         filtered.push(trip);
       }
+
     }
     return filtered;
   }
 
   onStartFilter(filter: string) {
-    console.log('this is the start filter', filter);
     this.startFilter = filter;
     this.filteredTrips = this.filterTrips(this.trips);
   }
 
   onEndFilter(filter: string) {
-    console.log('this is the end filter', filter);
     this.endFilter = filter;
+    this.filteredTrips = this.filterTrips(this.trips);
+  }
+
+  onDestinationFilter(filter: string) {
+    this.destinationFilter = filter;
     this.filteredTrips = this.filterTrips(this.trips);
   }
 

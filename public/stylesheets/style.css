@@ -91,7 +91,11 @@ div .mydp, .selection, .selectiongroup {
 }
 
 .filters-container .mydp  {
-  width: 150px !important;
+  width: 40% !important;
+  margin-right: 15px;
+  min-width: 100px;
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 
 .mydp .selectiongroup .selection {

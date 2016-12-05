@@ -1,0 +1,36 @@
+.filters-container {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 13px;
+  margin-bottom: 13px;
+  border-radius: 4px;
+}
+label {
+  vertical-align: top;
+  line-height: 3.2;
+  font-style: italic;
+  font-size: 12px;
+}
+.mydp {
+  width: 150px;
+}
+.typeahead-input,
+.typeahead-typeahead{
+    width: 250px;
+    padding: 8px;
+    border-radius: 5px;
+}
+input {
+  color: #333;
+
+}
+.date-filter {
+  text-align: center;
+}
+.block {
+  -webkit-transition: height .5s;
+  transition: height .5s;
+}
+.btn {
+  margin-bottom: 10px;
+}

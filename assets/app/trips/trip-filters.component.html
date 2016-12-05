@@ -1,0 +1,58 @@
+<button type="button" class="btn btn-primary"
+  (click)="
+    height = height ? 0 : el.scrollHeight;
+    buttonCaption = buttonCaption === 'Show Filters' ? 'Hide Filters' : 'Show Filters';
+
+    ">
+    {{ buttonCaption || 'Show Filters' }}
+</button>
+<div class="block" 
+  [style.height]="height + 'px'"
+  [style.overflow]="height ? 'initial' : 'hidden' "
+  #el> 
+  <div class="filters-container">
+    <h1> Filters </h1>
+    <div>
+      <label for="destination">By destination:</label>
+      <input class="form-control"
+        type="text"
+        id="destination"
+        [(ngModel)]="filterDestination"
+        (ngModelChange)="destinationChanged($event)"
+      >
+      <div>
+        <label for="startDate">By Start Date:</label>
+      </div>
+      <div class="date-filter">
+        <label for="startDate">From </label>
+        <my-date-picker
+          [options]="createDatePickerOptions('start')"
+          (dateChanged)="startDateChanged($event)"
+          [selDate]="startDate"
+          id="startDate"
+          class="formControl"
+          >
+        </my-date-picker>
+        <div
+          class="alert alert-danger alert-picker" *ngIf="!startDate && showingErrors"
+        >
+          Start date is not correct
+        </div>
+        <label for="endDate">Until </label>
+        <my-date-picker
+          [options]="createDatePickerOptions('end')"
+          (dateChanged)="endDateChanged($event)"
+          [selDate]="endDate"
+          id="endDate"
+          class="formControl"
+          >
+        </my-date-picker>
+        <div
+          class="alert alert-danger alert-picker" *ngIf="!endDate && showingErrors"
+        >
+          Start date is not correct
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>

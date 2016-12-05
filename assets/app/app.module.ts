@@ -34,7 +34,7 @@ import { AdminGuard } from './users/admin.guard';
 
 import { routing } from './app.routing';
 
-
+import { Typeahead } from '../../node_modules/ng2-typeahead/src/ng2-typeahead';
 import { MyDatePickerModule } from 'mydatepicker';
 
 import { MomentModule } from 'angular2-moment';
@@ -58,7 +58,7 @@ import { DropdownModule } from 'ng2-dropdown';
     UsersComponent,
     UserListComponent,
     UserComponent,
-    UserInputComponent
+    UserInputComponent,
   ],
   imports: [
     BrowserModule,
