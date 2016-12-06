@@ -1,0 +1,23 @@
+[
+  {
+    "firstName":"Steve",
+    "lastName":"Jobs",
+    "email":"admin@test.com",
+    "password":"123456",
+    "role": "admin"
+  },
+  {
+    "firstName":"Mark",
+    "lastName":"Zuckerberg",
+    "email":"manager@test.com",
+    "password":"123456",
+    "role": "manager"
+  },
+  {
+    "firstName":"Elon",
+    "lastName":"Musk",
+    "email":"user@test.com",
+    "password":"123456",
+    "role": "user"
+  }
+]
