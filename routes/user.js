@@ -179,6 +179,12 @@ router.post('/', function (req, res, next) {
     email: req.body.email.toLowerCase(),
     role: 'user'
   });
+  if (req.body.password.length < 6) {
+    return res.status(500).json({
+        title: 'Password too short!',
+        error: {message: 'Password too short'}
+      });
+  }
   user.save(function(err, user) {
     if (err) {
       return res.status(500).json({

@@ -89,6 +89,22 @@ describe('Users', function() {
           done();
         });
     });
+
+    it('should NOT create a new user with a short password', function(done) {
+      newUser.password = '123';      
+      chai.request(server)
+        .post('/api/users')
+        .send(newUser)
+        .end(function(err, res) {
+          res.should.have.status(500);
+          res.body.should.be.a('object');
+          res.body.error.should.have.property('message').eql('Password too short');
+          res.body.should.not.have.property('token');
+          res.body.should.not.have.property('user');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
     
     it('should NOT create a user with empty last name', function(done) {
       newUser.lastName = '';      
