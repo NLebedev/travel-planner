@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
     <td [hidden]="!visible">{{ user.role }}</td>
     <td [hidden]="!visible">
       <a (click)="onView()" *ngIf="myRole === 'admin'">Trips</a>
-      <a (click)="onDelete()" >Delete</a>
-      <a (click)="onEdit()" >Edit</a>
+      <a (click)="onDelete()" class="delete-btn">Delete</a>
+      <a (click)="onEdit()" class="edit-btn">Edit</a>
     </td>
   `,
   styles: [`

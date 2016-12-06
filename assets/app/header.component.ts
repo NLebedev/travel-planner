@@ -20,7 +20,7 @@ import { AuthService } from './auth/auth.service';
           <i class="fa fa-caret-down" aria-hidden="true"></i>
         </div>
         <ul class="dropdown-menu">
-            <li><a (click)="onLogout()">Logout</a></li>
+            <li><a (click)="onLogout()" class="logout">Logout</a></li>
             <li><a (click)="onUsers()" *ngIf="user?.role !== 'user'">Admin panel</a></li>
         </ul>
       </div>
@@ -72,10 +72,6 @@ import { AuthService } from './auth/auth.service';
     
   `]
 })
-      // <ul class="nav nav-pills">
-      //   <li routerLinkActive="active"><a [routerLink]="['/trips']">Trips</a></li>
-      //   <li routerLinkActive="active"><a [routerLink]="['/auth']">Authentication</a></li>
-      // </ul>
 
 export class HeaderComponent implements OnInit {
   user: User;
@@ -96,7 +92,7 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/auth','signin'])
+    this.router.navigateByUrl('/auth/signin');
   }
 
 }
