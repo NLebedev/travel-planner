@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
       });
     }
     // restrict to admins and managers
-    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
+    if (!userSender || (userSender.role != 'admin' && userSender.role != 'manager')) {
       return res.status(403).json({
         title: 'Access denied',
         error: {message: 'Restricted'}
@@ -51,7 +51,6 @@ router.get('/', function (req, res, next) {
 
 // update user
 router.patch('/:id', function(req, res, next) {
-  // TODO: allow this only for user managers and admins
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -68,7 +67,7 @@ router.patch('/:id', function(req, res, next) {
       });
     }
     // restrict to admins and managers
-    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
+    if (!userSender || (userSender.role != 'admin' && userSender.role != 'manager')) {
       return res.status(403).json({
         title: 'Access denied',
         error: {message: 'Restricted'}
@@ -93,7 +92,7 @@ router.patch('/:id', function(req, res, next) {
       user.lastName = req.body.lastName || user.lastName;
       
       // update role, but only if sent from admin
-      if (userSender.role === 'admin') {
+      if (userSender.role == 'admin') {
         user.role = req.body.role || user.role;
       }
 
@@ -119,7 +118,6 @@ router.patch('/:id', function(req, res, next) {
 
 // delete user
 router.delete('/:id', function(req, res, next) {
-  // TODO: allow this only for admins and user managers
   var decoded = jwt.decode(req.headers.token);
   if (!decoded || !decoded.user || !decoded.user._id) {
     return res.status(500).json({
@@ -136,7 +134,7 @@ router.delete('/:id', function(req, res, next) {
       });
     }
     // restrict to admins and managers
-    if (userSender.role !== 'admin' && userSender.role !== 'manager') {
+    if (!userSender || (userSender.role != 'admin' && userSender.role != 'manager')) {
       return res.status(403).json({
         title: 'Access denied',
         error: {message: 'Restricted'}
@@ -178,7 +176,7 @@ router.post('/', function (req, res, next) {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     password: bcrypt.hashSync(req.body.password, 10),
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     role: 'user'
   });
   user.save(function(err, user) {
@@ -204,7 +202,7 @@ router.post('/', function (req, res, next) {
 
 // sign in
 router.post('/signin', function (req, res, next) {
-  User.findOne({email: req.body.email}, function(err, user) {
+  User.findOne({email: req.body.email.toLowerCase()}, function(err, user) {
     if (err) {
       return res.status(500).json({
         title: 'An error occured',
@@ -218,7 +216,7 @@ router.post('/signin', function (req, res, next) {
       })
     }
     if (!bcrypt.compareSync(req.body.password, user.password)) {
-      return res.status(500).json({
+      return res.status(401).json({
         title: 'Login failed',
         error: {message: 'Invalid login credentials - password'}
       })

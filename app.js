@@ -11,7 +11,12 @@ var tripRoutes = require('./routes/trips');
 var userRoutes = require('./routes/user');
 
 var app = express();
-mongoose.connect('localhost:27017/travel-planner');
+
+//db options
+var config = require('config');
+
+// mongoose.connect('localhost:27017/travel-planner');
+mongoose.connect(config.DBHost);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +24,13 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+  //use morgan to log at command line
+  // app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+  app.use(logger('dev'));
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

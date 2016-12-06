@@ -39,7 +39,7 @@ router.get('/user_trips/:id', function (req, res, next) {
       });
     }
     // restrict to admins and owned trips
-    if (userSender.role !== 'admin' && req.params.id !== decoded.user._id) {
+    if (userSender.role != 'admin' && req.params.id != decoded.user._id) {
       return res.status(403).json({
         title: 'Access denied',
         error: {message: 'Restricted'}
@@ -143,7 +143,7 @@ router.patch('/:id', function(req, res, next) {
       }
       
       // restrict to admins and owned trips
-      if (userSender.role !== 'admin' && trip.user !== decoded.user._id) {
+      if (userSender.role != 'admin' && trip.user != decoded.user._id) {
         return res.status(403).json({
           title: 'Access denied',
           error: {message: 'Restricted'}
@@ -202,7 +202,7 @@ router.delete('/:id', function(req, res, next) {
       }
       
       // restrict to admins and owned trips
-      if (userSender.role !== 'admin' && trip.user !== decoded.user._id) {
+      if (userSender.role != 'admin' && trip.user != decoded.user._id) {
         return res.status(403).json({
           title: 'Access denied',
           error: {message: 'Restricted'}

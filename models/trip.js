@@ -3,11 +3,12 @@ var Schema = mongoose.Schema;
 var User = require('./user');
 
 var schema = new Schema({
-  destination: {type: String, required: true},
+  destination: {type: String, required: true, minlength: 2, maxlength: 15},
   startDate: {type: Date, required: true},
   endDate: {type: Date, required: true},
-  comment: {type: String},
-  user: {type: Schema.Types.ObjectId, ref: 'User'}
+  comment: {type: String, maxlength: 140},
+  user: {type: Schema.Types.ObjectId, ref: 'User'},
+  createdAt: { type: Date, default: Date.now }   
 });
 
 schema.post('remove', function(trip) {
