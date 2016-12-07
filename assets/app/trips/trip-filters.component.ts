@@ -104,8 +104,4 @@ export class TripFiltersComponent implements OnInit {
     );
     popupWin.document.close();
   } 
-
-
-
-
 }

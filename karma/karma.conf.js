@@ -43,8 +43,7 @@ module.exports = config => {
     });
 };
 
-
-
+// ALTERNATIVE CONFIG: 
 // var path = require('path');
 
 // var webpackConfig = require('../webpack.test');

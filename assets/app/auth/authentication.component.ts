@@ -16,9 +16,6 @@ import { AuthService } from './auth.service';
     </div>
   `
 })
-          // <li routerLinkActive="active"><a [routerLink]="['signup']">Signup</a></li>
-          // <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['signin']">Signin</a></li>
-          // <li routerLinkActive="active" *ngIf="isLoggedIn()"><a [routerLink]="['logout']">Logout</a></li>
 
 export class AuthenticationComponent {
 

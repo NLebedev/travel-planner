@@ -78,27 +78,11 @@ export class TripListComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.route.params
-    //   .switchMap((params: Params) => {
-    //     this.userId = params['id'];
-    //     console.log('user id', this.userId);
-    //   });
-
-    // // getting our trips
-    // this.tripService.getTrips(this.userId)
-    //   .subscribe(
-    //     (trips: Trip[]) => {
-    //       this.trips = trips;
-    //     }
-    //   );
-
-
     this.route.params
       .switchMap((params: Params) => this.tripService.getTrips(params['id']))
       .subscribe((trips: Trip[]) => {
         this.trips = trips;
         this.filteredTrips = trips;
       });
-
   }
 }

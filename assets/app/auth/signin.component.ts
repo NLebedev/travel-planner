@@ -53,5 +53,4 @@ export class SigninComponent implements OnInit {
       password: new FormControl(null, Validators.required)
     })
   }
-
 }

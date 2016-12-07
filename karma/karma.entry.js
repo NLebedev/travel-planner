@@ -25,6 +25,7 @@ coreTesting.TestBed.initTestEnvironment(
 
 context.keys().forEach(context);
 
+// ALTERNATIVA CONFIG:
 // Error.stackTraceLimit = Infinity;
 
 // require('core-js/client/shim');

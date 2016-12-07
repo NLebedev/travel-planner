@@ -1,3 +1,5 @@
+// TODO: mock difference pipe, uncomment for trip test,
+
 // import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 // import { Pipe, PipeTransform } from '@angular/core';
 // import { By }              from '@angular/platform-browser';
@@ -102,9 +104,4 @@
 //     const expectedDestination = expectedTrip.destination;
 //     expect(elTripDestination.nativeElement.textContent).toContain(expectedDestination);
 //   });
-
-
-
-
-  
 // });

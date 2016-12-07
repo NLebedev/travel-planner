@@ -1,3 +1,5 @@
+/* GENERAL */
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -43,18 +45,10 @@ h1 {
   float: right;
 }
 
-/*
-input.ng-invalid.ng-touched {
-  border: 1px solid red;
-}*/
-
 .content-container {
   background-color: rgba(255,255,255, 0.72);
   border-radius: 4px;
   padding: 20px;
- /* position: absolute;
-  left:0;
-  top:0;*/
 }
 
 .alert.alert-danger {
@@ -132,9 +126,3 @@ div .mydp .selector {
   -moz-box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
   box-shadow: 1px 1px 22px 0px rgba(50, 50, 50, 0.75);
 }
-
-/*.mpdp {
-  width: 150px;
-}*/
-
-/* TRIP LIST */

@@ -9,4 +9,3 @@ export const TRIPS_ROUTES: Routes = [
   { path: 'list/:id', component: TripListComponent },
   { path: 'form', component: TripInputComponent },
 ];
-  // { path: 'user-trips/:id', component: UserTripListComponent },

@@ -21,9 +21,6 @@ let authServiceStub: {
   };
 };
 
-// class RouterStub {
-//   navigateByUrl(url: string) { return url; }
-// }
 export const fake_routes: Routes = [
 // {path: 'home', component: MyComponent},
 ];
@@ -91,20 +88,6 @@ describe('HeaderComponent', () => {
     expect(content).toContain('Admin panel');
   });
 
-  // it('should welcome "Bubba"', () => {
-  //   authService.user.name = 'Bubba'; // welcome message hasn't been shown yet
-  //   fixture.detectChanges();
-  //   expect(el.textContent).toContain('Bubba');
-  // });
-
-  // it('should request login if not logged in', () => {
-  //   // authService.isLoggedIn = false; // welcome message hasn't been shown yet
-  //   fixture.detectChanges();
-  //   const content = el.textContent;
-  //   expect(content).not.toContain('Welcome', 'not welcomed');
-  //   expect(content).toMatch(/log in/i, '"log in"');
-  // });
-
   it('should inject the component\'s UserService instance',
     inject([AuthService], (service: AuthService) => {
     expect(service).toBe(componentUserService);
@@ -116,20 +99,8 @@ describe('HeaderComponent', () => {
 
   it('stub object and injected UserService should not be the same', () => {
     expect(authServiceStub === authService).toBe(false);
-
     // Changing the stub object has no effect on the injected service
     authServiceStub.isLoggedIn = false;
     expect(authService.isLoggedIn).toBe(true);
   });
-
-//   it('should raise selected event when clicked', () => {
-//     // click(elBtn);   // triggerEventHandler helper
-//     expect(el.textContent).toContain('Sign in');
-// });
-
-
-
-
-
-  
 });
