@@ -2,7 +2,7 @@
 
 A travel planning app allowing to keep track of your trips.
 <br>
-![App screenshot](https://raw.githubusercontent.com/nlebedev/travel-planner/blob/master/docs/screenshot.jpg)
+![App screenshot](https://cloud.githubusercontent.com/assets/9935241/21115964/90f16df2-c0c4-11e6-81f4-2ea8ff982fd6.jpg)
 
 ##Tech Stack, API's and Third-party Tools
 * [Angular 2 & Typescript] for frontend framework(https://angular.io/ & https://www.typescriptlang.org/) 
